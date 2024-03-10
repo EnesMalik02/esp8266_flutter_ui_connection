@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_interpolation_to_compose_strings
 
 import 'package:flutter/material.dart';
 
@@ -13,9 +13,16 @@ class _ToDoPageState extends State<ToDoPage> {
   //Text editing controller to get acces to what the user typed
   TextEditingController myController = TextEditingController();
 
+  // greetingMessage
+  String greetingMessage="";
+
   //greet User
   void greetUser(){
-    print(myController.text);
+    
+    setState(() {
+      greetingMessage="Hello "+myController.text;
+      
+    });
   }
 
   @override
@@ -27,6 +34,8 @@ class _ToDoPageState extends State<ToDoPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
           children: [
+
+            Text(greetingMessage),
             //TextField
             TextField(
             controller:myController ,

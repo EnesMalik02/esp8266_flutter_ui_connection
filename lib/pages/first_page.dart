@@ -62,7 +62,7 @@ class FirstPage extends StatelessWidget {
                 }
               ),
               ListTile(
-                leading: Icon(Icons.folder),
+                leading: Icon(Icons.work),
                 title: Text("Todo Page"),
                 onTap:(){
                   Navigator.pop(context);
@@ -72,11 +72,21 @@ class FirstPage extends StatelessWidget {
                 }
               ),
 
+                ListTile(
+                leading: Icon(Icons.folder),
+                title: Text("New Page"),
+                onTap:(){
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, '/newpage');
+                  
+
+                }
+              ),
           ],
         )
       ),
       body: Center(
-        
+      
 
       ),
     );

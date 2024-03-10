@@ -6,6 +6,7 @@ import 'package:teknofest/pages/first_page.dart';
 import 'package:teknofest/pages/real_time_data_page.dart';
 import 'package:teknofest/pages/settings_page.dart';
 import 'package:teknofest/pages/todo_page.dart';
+import 'package:teknofest/pages/smt_new_page.dart';
 
 
 
@@ -23,12 +24,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: FirstPage(),
+      theme:ThemeData(primarySwatch: Colors.blue),
       routes: {
         '/firstpage' :(context) => FirstPage(),
         '/realtimedatapage' :(context) => RealTimeDataPage(),
         '/settingspage':(context) => SettingsPage(),
         '/counterpage':(context) => CounterPage(),
         '/todopage':(context) => ToDoPage(),
+        '/newpage':(context) => NewPage(),
       } ,
     );
       
