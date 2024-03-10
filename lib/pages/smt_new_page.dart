@@ -1,7 +1,8 @@
 // ignore_for_file: unused_import, prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flutter/material.dart';
-
+import 'package:flutter/widgets.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 import 'package:teknofest/pages/first_page.dart';
 import 'package:teknofest/pages/real_time_data_page.dart';
@@ -30,10 +31,11 @@ class _NewPageState extends State<NewPage> {
     double verticalPadding = height * 0.1; // Ekran yüksekliğinin %10'u
 
     return Scaffold(
-      backgroundColor: Color.fromARGB(198, 93, 164, 198),
+      backgroundColor: Color.fromARGB(197, 142, 164, 175),
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 24, 37, 86),
+        backgroundColor: Color.fromARGB(255, 51, 67, 125),
         title: Text("New Testing Page"),
+        foregroundColor: Colors.white,
       ),
       drawer: Drawer(
         child: ListView(
@@ -100,45 +102,67 @@ class _NewPageState extends State<NewPage> {
           ],
         ),
       ),
-      body: Stack(
-        children: [
-          Positioned(
-            left: horizontalPadding,
-            top: verticalPadding,
-            child: Container(
-              height: 200,
-              width: 200,
-              color: Color.fromARGB(255, 41, 86, 134),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            // İlk satırda iki grafik
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _buildLineChartContainer(width),
+                _buildLineChartContainer(width),
+              ],
             ),
-          ),
-          Positioned(
-            right: horizontalPadding,
-            top: verticalPadding,
-            child: Container(
-              height: 200,
-              width: 200,
-              color: Color.fromARGB(255, 41, 86, 134),
+            // İkinci satırda iki grafik
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _buildBarChartContainer(width),
+                _buildBarChartContainer(width), // Örneğinizi takip ederek ikinci bir bar chart ekledim.
+              ],
             ),
-          ),
-          Positioned(
-            left: horizontalPadding,
-            bottom: verticalPadding,
-            child: Container(
-              height: 200,
-              width: 200,
-              color: Color.fromARGB(255, 41, 86, 134),
-            ),
-          ),
-          Positioned(
-            right: horizontalPadding,
-            bottom: verticalPadding,
-            child: Container(
-              height: 200,
-              width: 200,
-              color: Color.fromARGB(255, 41, 86, 134),
-            ),
-          ),
-        ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLineChartContainer(double width) {
+    return Container(
+      padding: EdgeInsets.all(10),
+      height: 300,
+      width: width * 0.45,
+      child: LineChart(
+        LineChartData(
+          borderData: FlBorderData(show: false),
+          lineBarsData: [
+            LineChartBarData(spots: [
+              FlSpot(0, 1),
+              FlSpot(1, 3),
+              FlSpot(2, 10),
+              FlSpot(3, 7),
+            ])
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBarChartContainer(double width) {
+    return Container(
+      padding: EdgeInsets.all(10),
+      height: 300,
+      width: width * 0.45,
+      child: BarChart(
+        BarChartData(
+          borderData: FlBorderData(show: false),
+          barGroups: [
+            BarChartGroupData(x: 0, barRods: [BarChartRodData(toY: 8, color: Colors.lightBlue)]),
+            BarChartGroupData(x: 1, barRods: [BarChartRodData(toY: 10, color: Colors.lightBlue)]),
+            BarChartGroupData(x: 2, barRods: [BarChartRodData(toY: 14, color: Colors.lightBlue)]),
+            BarChartGroupData(x: 3, barRods: [BarChartRodData(toY: 15, color: Colors.lightBlue)]),
+          ],
+        ),
       ),
     );
   }
