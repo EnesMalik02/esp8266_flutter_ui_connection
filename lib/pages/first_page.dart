@@ -5,6 +5,7 @@ import 'package:teknofest/pages/first_page.dart';
 import 'package:teknofest/pages/real_time_data_page.dart';
 import 'package:teknofest/pages/settings_page.dart';
 import 'package:teknofest/pages/previous_data_page.dart';
+import 'package:teknofest/pages/login_page.dart';
 
 class FirstPage extends StatefulWidget {
   const FirstPage({Key? key}) : super(key: key); // super.key değişikliği

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:teknofest/pages/first_page.dart';
+import 'package:teknofest/pages/login_page.dart';
 import 'package:teknofest/pages/real_time_data_page.dart';
 import 'package:teknofest/pages/settings_page.dart';
 import 'package:teknofest/pages/previous_data_page.dart';
@@ -23,12 +24,12 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       _selectedIndex = index;
     });
-  } 
+  }  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: FirstPage(),
+      home: LoginPage(),
       theme: ThemeData(primarySwatch: Colors.blue),
       routes: {
         '/firstpage': (context) => FirstPage(),
