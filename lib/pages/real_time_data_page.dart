@@ -42,7 +42,7 @@ class _RealtimeDataPageState extends State<RealtimeDataPage> {
               child: Icon(
                 Icons.person_pin_circle_sharp,
                 size: 48,
-                color: Colors.white,
+                
               ),
             ),
             ListTile(
