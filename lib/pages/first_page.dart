@@ -27,6 +27,7 @@ class _FirstPageState extends State<FirstPage> {
   void _onSelectPage(int index) {
     setState(() {
       _selectedIndex = index;
+      Navigator.pop(context);
     });
   }
 
