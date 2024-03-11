@@ -44,8 +44,11 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            FlutterLogo(size: 120.0),
-            SizedBox(height: 48.0),
+            Image.asset(
+              'assets/images/ipekyolulogo.png',
+          width: 120.0,
+          height: 120.0,
+            ),
             // Kullanıcı adı giriş alanı
             TextFormField(
               controller: _usernameController,
