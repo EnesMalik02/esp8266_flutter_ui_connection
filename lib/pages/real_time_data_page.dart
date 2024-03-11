@@ -28,11 +28,11 @@ class _RealtimeDataPageState extends State<RealtimeDataPage> {
 
     return Scaffold(
       backgroundColor: Color.fromARGB(197, 224, 229, 232),
-      appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 51, 67, 125),
-        title: Text("Real Time Data Page"),
-        foregroundColor: Colors.white,
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Color.fromARGB(255, 51, 67, 125),
+      //   title: Text("Real Time Data Page"),
+      //   foregroundColor: Colors.white,
+      // ),
       drawer: Drawer(
         backgroundColor: Color.fromARGB(255, 51, 67, 125),
         child: ListView(

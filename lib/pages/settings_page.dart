@@ -14,11 +14,11 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(backgroundColor: Color.fromARGB(197, 224, 229, 232),
-      appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 51, 67, 125),
-        title: Text("Settings"),
-        foregroundColor: Colors.white,
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Color.fromARGB(255, 51, 67, 125),
+      //   title: Text("Settings"),
+      //   foregroundColor: Colors.white,
+      // ),
       drawer: Drawer(
         backgroundColor: Color.fromARGB(255, 51, 67, 125),
         child: ListView(

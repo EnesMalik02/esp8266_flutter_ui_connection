@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_import
+// ignore_for_file: prefer_const_constructors, unused_import
 
 import 'package:flutter/material.dart';
 import 'package:teknofest/pages/first_page.dart';
@@ -7,80 +7,91 @@ import 'package:teknofest/pages/settings_page.dart';
 import 'package:teknofest/pages/previous_data_page.dart';
 
 class FirstPage extends StatefulWidget {
-  const FirstPage({super.key});
+  const FirstPage({Key? key}) : super(key: key); // super.key değişikliği
 
   @override
   State<FirstPage> createState() => _FirstPageState();
 }
 
 class _FirstPageState extends State<FirstPage> {
+  int _selectedIndex = 0; // Hangi sayfanın gösterileceğini tutacak
+
+  // Sayfaları burada tanımlıyoruz
+  final List<Widget> _pages = [
+    HomePageBody(), // Anasayfanın ana gövdesi için bir widget
+    RealtimeDataPage(),
+    PreviousDataPage(),
+    SettingsPage(),
+  ];
+
+  void _onSelectPage(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(197, 224, 229, 232),
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 51, 67, 125),
-        title: Text("Home Page"),
+        title: Text(_pages[_selectedIndex].runtimeType.toString().replaceAll('Page', ' ').trim() + "Page"), // Dinamik başlık
         foregroundColor: Colors.white,
-      
       ),
       drawer: Drawer(
-          backgroundColor: Color.fromARGB(255, 51, 67, 125),
-          child: Column(
-            children: [
-              DrawerHeader(
-                child: Icon(
-                  
-                  Icons.person_pin_circle_sharp,
-                  size: 48,
-                  color: Colors.white,
-                  
-                ),
-              ),
-              ListTile(
-                  leading: Icon(Icons.home),
-                  title: Text("Home Page"),
-                  textColor: Colors.white,
-                  iconColor: Colors.white,
-                  onTap: () {
-                    //pop the drawer first
-                    Navigator.pop(context);
-                    // go to home page
-                    //Navigator.pushNamed(context, '/first_page');
-                  }),
-              ListTile(
-                  leading: Icon(Icons.signal_cellular_alt_sharp),
-                  title: Text("Real Time Datas"),
-                  textColor: Colors.white,
-                  iconColor: Colors.white,
-                  onTap: () {
-                    //pop the drawer first
-                    Navigator.pop(context);
-                    // go to home page
-                    Navigator.pushNamed(context, '/realtimedatapage');
-                  }),
-              ListTile(
-                  leading: Icon(Icons.timelapse),
-                  title: Text("Previous Datas"),
-                  textColor: Colors.white,
-                  iconColor: Colors.white,
-                  onTap: () {
-                    Navigator.pop(context);
+        backgroundColor: Color.fromARGB(255, 51, 67, 125),
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              child: Icon(Icons.person_pin_circle_sharp, size: 48, color: Colors.white),
+            ),
+            ListTile(
+              leading: Icon(Icons.home),
+              title: Text("Home Page"),
+              textColor: Colors.white,
+              iconColor: Colors.white,
+              onTap: () => _onSelectPage(0),
+              
+            ),
+            ListTile(
+              leading: Icon(Icons.signal_cellular_alt_sharp),
+              title: Text("Real Time Datas"),
+              textColor: Colors.white,
+              iconColor: Colors.white,
+              onTap: () => _onSelectPage(1),
+            ),
+            ListTile(
+              leading: Icon(Icons.timelapse),
+              title: Text("Previous Datas"),
+              textColor: Colors.white,
+              iconColor: Colors.white,
+              onTap: () => _onSelectPage(2),
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text("Settings"),
+              textColor: Colors.white,
+              iconColor: Colors.white,
+              onTap: () => _onSelectPage(3),
+            ),
+          ],
+        ),
+      ),
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _pages,
+      ),
+    );
+  }
+}
 
-                    Navigator.pushNamed(context, '/previousdatapage');
-                  }),
-              ListTile(
-                  leading: Icon(Icons.settings),
-                  title: Text("Settings"),
-                  textColor: Colors.white,
-                  iconColor: Colors.white,
-                  onTap: () {
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, '/settingspage');
-                  }),
-            ],
-          )),
-      body: Center(),
+class HomePageBody extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text('Home Page Content'),
     );
   }
 }

@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import, prefer_const_literals_to_create_immutables, prefer_const_constructors, unused_local_variable
+// ignore_for_file: unused_import, prefer_const_literals_to_create_immutables, prefer_const_constructors, unused_local_variable, unnecessary_import
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -28,11 +28,11 @@ class _PreviousDataPage extends State<PreviousDataPage> {
 
     return Scaffold(
       backgroundColor: Color.fromARGB(197, 224, 229, 232),
-      appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 51, 67, 125),
-        title: Text("Previous Datas"),
-        foregroundColor: Colors.white,
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Color.fromARGB(255, 51, 67, 125),
+      //   title: Text("Previous Datas"),
+      //   foregroundColor: Colors.white,
+      // ),
       drawer: Drawer(
         backgroundColor: Color.fromARGB(255, 51, 67, 125),
         child: ListView(
