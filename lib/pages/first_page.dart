@@ -1,11 +1,14 @@
 // ignore_for_file: prefer_const_constructors, unused_import
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:teknofest/pages/first_page.dart';
 import 'package:teknofest/pages/real_time_data_page.dart';
 import 'package:teknofest/pages/settings_page.dart';
 import 'package:teknofest/pages/previous_data_page.dart';
 import 'package:teknofest/pages/login_page.dart';
+import 'package:teknofest/pages/maps.dart';
 
 class FirstPage extends StatefulWidget {
   const FirstPage({Key? key}) : super(key: key); // super.key değişikliği
@@ -23,6 +26,7 @@ class _FirstPageState extends State<FirstPage> {
     RealtimeDataPage(),
     PreviousDataPage(),
     SettingsPage(),
+    GoogleMap(),
   ];
 
   void _onSelectPage(int index) {
@@ -42,10 +46,13 @@ class _FirstPageState extends State<FirstPage> {
         foregroundColor: Colors.white,
       ),
       drawer: Drawer(
-        backgroundColor: Color.fromARGB(255, 51, 67, 125),
+  backgroundColor: Color.fromARGB(255, 51, 67, 125),
+  child: Column(
+    children: <Widget>[
+      Expanded(
         child: ListView(
           padding: EdgeInsets.zero,
-          children: [
+          children: <Widget>[
             DrawerHeader(
               child: Icon(Icons.person_pin_circle_sharp, size: 48, color: Colors.white),
             ),
@@ -55,7 +62,6 @@ class _FirstPageState extends State<FirstPage> {
               textColor: Colors.white,
               iconColor: Colors.white,
               onTap: () => _onSelectPage(0),
-              
             ),
             ListTile(
               leading: Icon(Icons.signal_cellular_alt_sharp),
@@ -78,6 +84,32 @@ class _FirstPageState extends State<FirstPage> {
               iconColor: Colors.white,
               onTap: () => _onSelectPage(3),
             ),
+            ListTile(
+              leading: Icon(Icons.map),
+              title: Text("Maps"),
+              textColor: Colors.white,
+              iconColor: Colors.white,
+              onTap: () => _onSelectPage(4),
+            ),
+            
+          ],
+        ),
+      ),
+      
+      ListTile(
+        leading: Icon(Icons.logout),
+        title: Text("Logout"),
+        textColor: Colors.white,
+        iconColor: Colors.white,
+        onTap: () {
+    
+              Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => LoginPage()),
+              (Route<dynamic> route) => false,
+          );
+      },
+    ),
+
           ],
         ),
       ),

@@ -30,6 +30,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
 <<<<<<< HEAD
+<<<<<<< HEAD
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -142,6 +143,10 @@ class _MyHomePageState extends State<MyHomePage> {
       ), // This trailing comma makes auto-formatting nicer for build methods.
 =======
       home: LoginPage(),
+=======
+      // home: LoginPage(),
+      home: FirstPage(),
+>>>>>>> 46979febd6540c27410b2cacb69eea5e1fc33628
       theme: ThemeData(primarySwatch: Colors.blue),
       routes: {
         '/firstpage': (context) => FirstPage(),
