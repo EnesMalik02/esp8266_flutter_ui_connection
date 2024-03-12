@@ -30,7 +30,7 @@ class _RealtimeDataPageState extends State<RealtimeDataPage> {
       backgroundColor: Color.fromARGB(197, 224, 229, 232),
       // appBar: AppBar(
       //   backgroundColor: Color.fromARGB(255, 51, 67, 125),
-      //   title: Text("Real Time Data Page"),
+      //   title: Text("Real Time Data Page"), 
       //   foregroundColor: Colors.white,
       // ),
       drawer: Drawer(

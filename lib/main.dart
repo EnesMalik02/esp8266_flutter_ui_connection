@@ -29,7 +29,8 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      // home: LoginPage(),
+      home: FirstPage(),
       theme: ThemeData(primarySwatch: Colors.blue),
       routes: {
         '/firstpage': (context) => FirstPage(),
