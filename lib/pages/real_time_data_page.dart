@@ -15,6 +15,11 @@ class RealtimeDataPage extends StatefulWidget {
 }
 
 class _RealtimeDataPageState extends State<RealtimeDataPage> {
+  
+
+
+
+
   @override
   Widget build(BuildContext context) {
     // Ekran boyutunu al
@@ -111,6 +116,7 @@ class _RealtimeDataPageState extends State<RealtimeDataPage> {
           ],
         ),
       ),
+      
     );
   }
 
@@ -143,6 +149,7 @@ class _RealtimeDataPageState extends State<RealtimeDataPage> {
       ],
     );
   }
+ 
 
   Widget _buildBarChartContainer(double width, String text) {
     return Column(
