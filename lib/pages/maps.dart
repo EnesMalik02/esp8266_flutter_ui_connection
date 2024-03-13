@@ -7,6 +7,8 @@ import 'dart:ui' as ui;
 import 'package:web/src/dom/html.dart';
 
 class GoogleMap extends StatelessWidget {
+  const GoogleMap({super.key});
+
   @override
   Widget build(BuildContext context) {
     String htmlId = "7";

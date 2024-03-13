@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'first_page.dart'; // Doğru yolu belirttiğinizden emin olun.
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();

@@ -43,27 +43,7 @@
 </head>
 <body>
   <script>
-    // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyAORoyd1LxZT4mcUpUnko0WCL1LyVUjbb8",
-  authDomain: "flutterwebproject-b5da1.firebaseapp.com",
-  projectId: "flutterwebproject-b5da1",
-  storageBucket: "flutterwebproject-b5da1.appspot.com",
-  messagingSenderId: "497587841810",
-  appId: "1:497587841810:web:9bc0c0cddf6a34beb5e1cb",
-  measurementId: "G-M0WRG1Q0QJ"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
   function initMap(mapId) {
     const map = new google.maps.Map(document.getElementById(mapId), {
       center: { lat: -34.397, lng: 150.644 },

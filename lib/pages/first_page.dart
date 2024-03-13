@@ -11,7 +11,7 @@ import 'package:teknofest/pages/login_page.dart';
 import 'package:teknofest/pages/maps.dart';
 
 class FirstPage extends StatefulWidget {
-  const FirstPage({Key? key}) : super(key: key); // super.key değişikliği
+  const FirstPage({super.key}); // super.key değişikliği
 
   @override
   State<FirstPage> createState() => _FirstPageState();
@@ -42,7 +42,7 @@ class _FirstPageState extends State<FirstPage> {
       backgroundColor: Color.fromARGB(197, 224, 229, 232),
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 51, 67, 125),
-        title: Text(_pages[_selectedIndex].runtimeType.toString().replaceAll('Page', ' ').trim() + "Page"), // Dinamik başlık
+        title: Text("${_pages[_selectedIndex].runtimeType.toString().replaceAll('Page', ' ').trim()}Page"), // Dinamik başlık
         foregroundColor: Colors.white,
       ),
       drawer: Drawer(
@@ -122,6 +122,8 @@ class _FirstPageState extends State<FirstPage> {
 }
 
 class HomePageBody extends StatelessWidget {
+  const HomePageBody({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Center(

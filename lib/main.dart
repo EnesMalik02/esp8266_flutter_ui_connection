@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:teknofest/pages/first_page.dart';
-import 'package:teknofest/pages/login_page.dart';
 import 'package:teknofest/pages/real_time_data_page.dart';
 import 'package:teknofest/pages/settings_page.dart';
 import 'package:teknofest/pages/previous_data_page.dart';
