@@ -44,6 +44,7 @@ dependencies:
 
   google_maps: any
   web: any
+  firebase_database: ^10.4.10
 dev_dependencies:
   flutter_test:
     sdk: flutter

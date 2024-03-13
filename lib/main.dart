@@ -12,12 +12,14 @@ Future main() async{
   WidgetsFlutterBinding.ensureInitialized();
   if(kIsWeb){
     await Firebase.initializeApp(options: FirebaseOptions(
-      apiKey: "AIzaSyBw-jG5jZpBRjKBYcS7UkV7rt2FI8HqEls",
-      appId: "1:312556118663:web:7d60b8867dd398e7ee4e22",
-      messagingSenderId: "312556118663",
-      projectId: "flutterproject2-2c9f0",
-
+      apiKey: "AIzaSyAVAx4WmrXw8CpKUc8wqIbW8PJARCqVkTk",
+      appId: "1:573751744419:web:0bee881b05a3aefa256c16",
+      messagingSenderId: "573751744419",
+      projectId: "espdb-8634b",
+      databaseURL: "https://espdb-8634b-default-rtdb.firebaseio.com",
     ),
+
+    
     
     );
   }
