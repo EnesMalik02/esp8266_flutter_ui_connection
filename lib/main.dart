@@ -1,12 +1,28 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, must_be_immutable, unused_element
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:teknofest/pages/first_page.dart';
 import 'package:teknofest/pages/real_time_data_page.dart';
 import 'package:teknofest/pages/settings_page.dart';
 import 'package:teknofest/pages/previous_data_page.dart';
 
-void main() {
+Future main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  if(kIsWeb){
+    await Firebase.initializeApp(options: FirebaseOptions(
+      apiKey: "AIzaSyBw-jG5jZpBRjKBYcS7UkV7rt2FI8HqEls",
+      appId: "1:312556118663:web:7d60b8867dd398e7ee4e22",
+      messagingSenderId: "312556118663",
+      projectId: "flutterproject2-2c9f0",
+
+    ),
+    
+    );
+  }
+
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
