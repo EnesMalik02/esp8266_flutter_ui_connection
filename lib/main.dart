@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, sort_child_properties_last
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 //import 'pages/dataVisulationPage.dart';
 
@@ -16,16 +17,20 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String butonName = "Hello World";
+  final databaseReference = FirebaseDatabase.instance.reference();
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final ref = databaseReference.child('test');
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.purpleAccent[400],
           title: Text(
-            'Teknofest',
+            ref.toString(),
             style: TextStyle(
               color: Colors.black,
             ),
