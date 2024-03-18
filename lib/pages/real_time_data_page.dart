@@ -1,5 +1,6 @@
 // ignore_for_file: unused_import, prefer_const_literals_to_create_immutables, prefer_const_constructors, unused_local_variable
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
@@ -15,7 +16,36 @@ class RealtimeDataPage extends StatefulWidget {
 }
 
 class _RealtimeDataPageState extends State<RealtimeDataPage> {
+   Map<String, dynamic>? data;
+
+   @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  void fetchData() async {
+  DatabaseReference databaseRef = FirebaseDatabase.instance.ref('test');
+  DataSnapshot snapshot = await databaseRef.get();
   
+  if (snapshot.exists) {
+    final fetchedData = Map<String, dynamic>.from(snapshot.value as Map);
+    setState(() {
+      // Her bir anahtar için, eğer veri tek bir sayıysa, bu sayıyı liste içine koyun.
+      Map<String, List<double>>data = {
+        'distance': [fetchedData['distance']?.toDouble() ?? 0.0],
+        'nem': [fetchedData['nem']?.toDouble() ?? 0.0],
+        'sicaklik': [fetchedData['sicaklik']?.toDouble() ?? 0.0],
+        
+      };
+    }
+    
+    );
+  } else {
+    print("No data available.");
+  }
+  
+}
 
 
 
@@ -101,8 +131,8 @@ class _RealtimeDataPageState extends State<RealtimeDataPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildLineChartContainer(width, "Sıcaklık"),
-                _buildLineChartContainer(width, "Nem"),
+                _buildLineChartContainer(width, "Sıcaklık",(data!=null ? data!['sicaklik']:null)),
+                _buildLineChartContainer(width, "Nem",(data!=null ? data!['nem']:null)),
               ],
             ),
             SizedBox(height: 65),
@@ -120,7 +150,7 @@ class _RealtimeDataPageState extends State<RealtimeDataPage> {
     );
   }
 
-  Widget _buildLineChartContainer(double width, String text) {
+  Widget _buildLineChartContainer(double width, String text, List<double> data) {
     return Column(
       children: [
         Container(
@@ -132,10 +162,10 @@ class _RealtimeDataPageState extends State<RealtimeDataPage> {
               borderData: FlBorderData(show: false),
               lineBarsData: [
                 LineChartBarData(spots: [
-                  FlSpot(0, 1),
-                  FlSpot(1, 3),
-                  FlSpot(2, 10),
-                  FlSpot(3, 7),
+                  FlSpot(0, data != null ? data[0].toDouble() : 0),
+                  FlSpot(1, data != null ? data[1].toDouble() : 0),
+                  FlSpot(2, data != null ? data[2].toDouble() : 0),
+                  FlSpot(3, data != null ? data[3].toDouble() : 0),
                 ])
               ],
             ),
