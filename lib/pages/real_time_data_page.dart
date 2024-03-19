@@ -1,70 +1,53 @@
-// ignore_for_file: unused_import, prefer_const_literals_to_create_immutables, prefer_const_constructors, unused_local_variable
+// ignore_for_file: library_private_types_in_public_api, prefer_const_constructors, avoid_print, use_key_in_widget_constructors
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
-
-import 'package:teknofest/pages/first_page.dart';
-import 'package:teknofest/pages/real_time_data_page.dart';
-import 'package:teknofest/pages/settings_page.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'dart:async';
 
 class RealtimeDataPage extends StatefulWidget {
-  const RealtimeDataPage({super.key});
+  const RealtimeDataPage({Key? key});
 
   @override
   State<RealtimeDataPage> createState() => _RealtimeDataPageState();
 }
 
 class _RealtimeDataPageState extends State<RealtimeDataPage> {
-   Map<String, dynamic>? data;
+  Map<String, dynamic>? data;
 
-   @override
+  @override
   void initState() {
     super.initState();
     fetchData();
   }
 
   void fetchData() async {
-  DatabaseReference databaseRef = FirebaseDatabase.instance.ref('test');
-  DataSnapshot snapshot = await databaseRef.get();
-  
-  if (snapshot.exists) {
-    final fetchedData = Map<String, dynamic>.from(snapshot.value as Map);
-    setState(() {
-      // Her bir anahtar için, eğer veri tek bir sayıysa, bu sayıyı liste içine koyun.
-      Map<String, List<double>>data = {
-        'distance': [fetchedData['distance']?.toDouble() ?? 0.0],
-        'nem': [fetchedData['nem']?.toDouble() ?? 0.0],
-        'sicaklik': [fetchedData['sicaklik']?.toDouble() ?? 0.0],
-        
-      };
+    DatabaseReference databaseRef = FirebaseDatabase.instance.ref('test');
+    DataSnapshot snapshot = await databaseRef.get();
+
+    if (snapshot.exists) {
+      final fetchedData = Map<String, dynamic>.from(snapshot.value as Map);
+      setState(() {
+        // Her bir anahtar için, eğer veri tek bir sayıysa, bu sayıyı liste içine koyun.
+        Map<String, List<double>> data = {
+          'distance': [fetchedData['distance']?.toDouble() ?? 0.0],
+          'nem': [fetchedData['nem']?.toDouble() ?? 0.0],
+          'sicaklik': [fetchedData['sicaklik']?.toDouble() ?? 0.0],
+        };
+      });
+    } else {
+      print("No data available.");
     }
-    
-    );
-  } else {
-    print("No data available.");
+    print(data);
   }
-  
-}
-
-
-
 
   @override
   Widget build(BuildContext context) {
-    // Ekran boyutunu al
-    Size screenSize = MediaQuery.of(context).size;
-    double width = screenSize.width;
-    double height = screenSize.height;
-
-    double horizontalPadding = width * 0.1;
-    double verticalPadding = height * 0.1;
-
     return Scaffold(
       backgroundColor: Color.fromARGB(197, 224, 229, 232),
       // appBar: AppBar(
       //   backgroundColor: Color.fromARGB(255, 51, 67, 125),
-      //   title: Text("Real Time Data Page"), 
+      //   title: Text("Real Time Data Page"),
       //   foregroundColor: Colors.white,
       // ),
       drawer: Drawer(
@@ -76,7 +59,6 @@ class _RealtimeDataPageState extends State<RealtimeDataPage> {
               child: Icon(
                 Icons.person_pin_circle_sharp,
                 size: 48,
-                
               ),
             ),
             ListTile(
@@ -119,101 +101,107 @@ class _RealtimeDataPageState extends State<RealtimeDataPage> {
                 Navigator.pushNamed(context, '/settingspage');
               },
             ),
-           
-         
           ],
         ),
       ),
-      body: SingleChildScrollView(
+      body: Container(
+        padding: EdgeInsets.all(16.0),
         child: Column(
           children: [
-            SizedBox(height: 65),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildLineChartContainer(width, "Sıcaklık",(data!=null ? data!['sicaklik']:null)),
-                _buildLineChartContainer(width, "Nem",(data!=null ? data!['nem']:null)),
-              ],
+            SizedBox(
+              height: 200, // Adjust the height as needed
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ChartContainer(),
+                  ),
+                  Expanded(
+                    child: ChartContainer(),
+                  ),
+                ],
+              ),
             ),
-            SizedBox(height: 65),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildBarChartContainer(width, "Basınç"),
-                _buildBarChartContainer(width, "Eğim"),
-              ],
-            ),
+            // Other widgets can be added below if needed
           ],
         ),
       ),
-      
+    );
+  }
+}
+
+class ChartContainer extends StatefulWidget {
+  @override
+  _ChartContainerState createState() => _ChartContainerState();
+}
+
+class _ChartContainerState extends State<ChartContainer> {
+  late List<LiveData> chartData;
+  late ChartSeriesController _chartSeriesController;
+
+  @override
+  void initState() {
+    chartData = getChartData();
+    Timer.periodic(const Duration(seconds: 1), updateDataSource);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 8.0),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey),
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: SfCartesianChart(
+        series: <LineSeries<LiveData, int>>[
+          LineSeries<LiveData, int>(
+            onRendererCreated: (ChartSeriesController controller) {
+              _chartSeriesController = controller;
+            },
+            dataSource: chartData,
+            color: const Color.fromRGBO(192, 108, 132, 1),
+            xValueMapper: (LiveData sales, _) => sales.time,
+            yValueMapper: (LiveData sales, _) => sales.speed,
+          )
+        ],
+        primaryXAxis: NumericAxis(
+          majorGridLines: const MajorGridLines(width: 0),
+          edgeLabelPlacement: EdgeLabelPlacement.shift,
+          interval: 3,
+          title: AxisTitle(text: 'Time (seconds)'),
+        ),
+        primaryYAxis: NumericAxis(
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0),
+          title: AxisTitle(text: 'Internet speed (Mbps)'),
+        ),
+      ),
     );
   }
 
-  Widget _buildLineChartContainer(double width, String text, List<double> data) {
-    return Column(
-      children: [
-        Container(
-          padding: EdgeInsets.all(15),
-          height: 300,
-          width: width * 0.45,
-          child: LineChart(
-            LineChartData(
-              borderData: FlBorderData(show: false),
-              lineBarsData: [
-                LineChartBarData(spots: [
-                  FlSpot(0, data != null ? data[0].toDouble() : 0),
-                  FlSpot(1, data != null ? data[1].toDouble() : 0),
-                  FlSpot(2, data != null ? data[2].toDouble() : 0),
-                  FlSpot(3, data != null ? data[3].toDouble() : 0),
-                ])
-              ],
-            ),
-          ),
-        ),
-        SizedBox(height: 10),
-        Text(
-          text,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
-      ],
-    );
+  int time = 19;
+  void updateDataSource(Timer timer) {
+    setState(() {
+      chartData.add(LiveData(time++, 50.5));
+      chartData.removeAt(0);
+      _chartSeriesController.updateDataSource(
+        addedDataIndex: chartData.length - 1,
+        removedDataIndex: 0,
+      );
+    });
   }
- 
 
-  Widget _buildBarChartContainer(double width, String text) {
-    return Column(
-      children: [
-        Container(
-          padding: EdgeInsets.all(15),
-          height: 300,
-          width: width * 0.45,
-          child: BarChart(
-            BarChartData(
-              borderData: FlBorderData(show: false),
-              barGroups: [
-                BarChartGroupData(x: 0, barRods: [
-                  BarChartRodData(toY: 8, color: Colors.lightBlue)
-                ]),
-                BarChartGroupData(x: 1, barRods: [
-                  BarChartRodData(toY: 10, color: Colors.lightBlue)
-                ]),
-                BarChartGroupData(x: 2, barRods: [
-                  BarChartRodData(toY: 14, color: Colors.lightBlue)
-                ]),
-                BarChartGroupData(x: 3, barRods: [
-                  BarChartRodData(toY: 15, color: Colors.lightBlue)
-                ]),
-              ],
-            ),
-          ),
-        ),
-        SizedBox(height: 10),
-        Text(
-          text,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
-      ],
+  List<LiveData> getChartData() {
+    return List<LiveData>.generate(
+      20,
+      (index) => LiveData(index, 0),
     );
   }
+}
+
+class LiveData {
+  LiveData(this.time, this.speed);
+  final int time;
+  final num speed;
 }

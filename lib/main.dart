@@ -8,19 +8,17 @@ import 'package:teknofest/pages/real_time_data_page.dart';
 import 'package:teknofest/pages/settings_page.dart';
 import 'package:teknofest/pages/previous_data_page.dart';
 
-Future main() async{
+Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  if(kIsWeb){
-    await Firebase.initializeApp(options: FirebaseOptions(
-      apiKey: "AIzaSyAVAx4WmrXw8CpKUc8wqIbW8PJARCqVkTk",
-      appId: "1:573751744419:web:0bee881b05a3aefa256c16",
-      messagingSenderId: "573751744419",
-      projectId: "espdb-8634b",
-      databaseURL: "https://espdb-8634b-default-rtdb.firebaseio.com",
-    ),
-
-    
-    
+  if (kIsWeb) {
+    await Firebase.initializeApp(
+      options: FirebaseOptions(
+        apiKey: "AIzaSyAVAx4WmrXw8CpKUc8wqIbW8PJARCqVkTk",
+        appId: "1:573751744419:web:0bee881b05a3aefa256c16",
+        messagingSenderId: "573751744419",
+        projectId: "espdb-8634b",
+        databaseURL: "https://espdb-8634b-default-rtdb.firebaseio.com",
+      ),
     );
   }
 
@@ -34,14 +32,17 @@ class MyApp extends StatefulWidget {
   @override
   State<MyApp> createState() => _MyAppState();
 }
+
 int _selectedIndex = 0;
+
 class _MyAppState extends State<MyApp> {
   String butonName = "Hello World";
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
-  }  
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -54,7 +55,6 @@ class _MyAppState extends State<MyApp> {
         '/realtimedatapage': (context) => RealtimeDataPage(),
         '/previousdatapage': (context) => PreviousDataPage(),
         '/settingspage': (context) => SettingsPage(),
-
       },
     );
   }

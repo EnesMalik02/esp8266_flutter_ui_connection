@@ -45,6 +45,7 @@ dependencies:
   google_maps: any
   web: any
   firebase_database: ^10.4.10
+  syncfusion_flutter_charts: ^25.1.35
 dev_dependencies:
   flutter_test:
     sdk: flutter
