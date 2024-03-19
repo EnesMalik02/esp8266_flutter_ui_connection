@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api, prefer_const_constructors, avoid_print, use_key_in_widget_constructors
+// ignore_for_file: prefer_const_constructors
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -12,44 +12,29 @@ class RealtimeDataPage extends StatefulWidget {
   State<RealtimeDataPage> createState() => _RealtimeDataPageState();
 }
 
+String _data = '';
+
 class _RealtimeDataPageState extends State<RealtimeDataPage> {
-  Map<String, dynamic>? data;
+  final databaseReference = FirebaseDatabase.instance
+      .ref('test')
+      .child("nem"); // Değişiklik yapılacak yolu belirtin
 
   @override
   void initState() {
     super.initState();
-    fetchData();
-  }
-
-  void fetchData() async {
-    DatabaseReference databaseRef = FirebaseDatabase.instance.ref('test');
-    DataSnapshot snapshot = await databaseRef.get();
-
-    if (snapshot.exists) {
-      final fetchedData = Map<String, dynamic>.from(snapshot.value as Map);
+    // Veri değişikliklerini dinle
+    databaseReference.onValue.listen((event) {
       setState(() {
-        // Her bir anahtar için, eğer veri tek bir sayıysa, bu sayıyı liste içine koyun.
-        Map<String, List<double>> data = {
-          'distance': [fetchedData['distance']?.toDouble() ?? 0.0],
-          'nem': [fetchedData['nem']?.toDouble() ?? 0.0],
-          'sicaklik': [fetchedData['sicaklik']?.toDouble() ?? 0.0],
-        };
+        _data = event.snapshot.value?.toString() ?? ''; // null kontrolü eklendi
+        print(_data);
       });
-    } else {
-      print("No data available.");
-    }
-    print(data);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(197, 224, 229, 232),
-      // appBar: AppBar(
-      //   backgroundColor: Color.fromARGB(255, 51, 67, 125),
-      //   title: Text("Real Time Data Page"),
-      //   foregroundColor: Colors.white,
-      // ),
       drawer: Drawer(
         backgroundColor: Color.fromARGB(255, 51, 67, 125),
         child: ListView(
@@ -113,10 +98,10 @@ class _RealtimeDataPageState extends State<RealtimeDataPage> {
               child: Row(
                 children: [
                   Expanded(
-                    child: ChartContainer(),
+                    child: ChartContainer(_data),
                   ),
                   Expanded(
-                    child: ChartContainer(),
+                    child: ChartContainer(_data),
                   ),
                 ],
               ),
@@ -130,6 +115,9 @@ class _RealtimeDataPageState extends State<RealtimeDataPage> {
 }
 
 class ChartContainer extends StatefulWidget {
+  final String data;
+  ChartContainer(this.data);
+
   @override
   _ChartContainerState createState() => _ChartContainerState();
 }
@@ -180,10 +168,20 @@ class _ChartContainerState extends State<ChartContainer> {
     );
   }
 
+  int dataAsInt() {
+    try {
+      return int.parse(_data);
+    } on FormatException {
+      print("Veri int'e dönüştürülemiyor: $_data");
+      // Hata durumunu işle (örneğin varsayılan değer kullan)
+      return 0; // veya istediğiniz varsayılan değer
+    }
+  }
+
   int time = 19;
   void updateDataSource(Timer timer) {
     setState(() {
-      chartData.add(LiveData(time++, 50.5));
+      chartData.add(LiveData(time++, dataAsInt()));
       chartData.removeAt(0);
       _chartSeriesController.updateDataSource(
         addedDataIndex: chartData.length - 1,
