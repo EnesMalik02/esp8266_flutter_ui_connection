@@ -17,7 +17,7 @@ String _data = '';
 class _RealtimeDataPageState extends State<RealtimeDataPage> {
   final databaseReference = FirebaseDatabase.instance
       .ref('test')
-      .child("nem"); // Değişiklik yapılacak yolu belirtin
+      .child("distance"); // Değişiklik yapılacak yolu belirtin
 
   @override
   void initState() {
@@ -125,12 +125,18 @@ class ChartContainer extends StatefulWidget {
 class _ChartContainerState extends State<ChartContainer> {
   late List<LiveData> chartData;
   late ChartSeriesController _chartSeriesController;
+  late Timer timer;
 
   @override
   void initState() {
     chartData = getChartData();
     Timer.periodic(const Duration(seconds: 1), updateDataSource);
     super.initState();
+  }
+
+  void dispose() {
+    timer.cancel(); // Timer'ı durdurmak için
+    super.dispose();
   }
 
   @override
@@ -168,18 +174,19 @@ class _ChartContainerState extends State<ChartContainer> {
     );
   }
 
-  int dataAsInt() {
+  num dataAsInt() {
     try {
-      return int.parse(_data);
+      return double.parse(widget.data);
     } on FormatException {
-      print("Veri int'e dönüştürülemiyor: $_data");
+      print("Veri int'e dönüştürülemiyor: ${widget.data}");
       // Hata durumunu işle (örneğin varsayılan değer kullan)
-      return 0; // veya istediğiniz varsayılan değer
+      return 0.0; // veya istediğiniz varsayılan değer
     }
   }
 
   int time = 19;
   void updateDataSource(Timer timer) {
+    Future.delayed(Duration(seconds: 1), () {});
     setState(() {
       chartData.add(LiveData(time++, dataAsInt()));
       chartData.removeAt(0);
@@ -188,7 +195,9 @@ class _ChartContainerState extends State<ChartContainer> {
         removedDataIndex: 0,
       );
     });
+
   }
+  
 
   List<LiveData> getChartData() {
     return List<LiveData>.generate(
